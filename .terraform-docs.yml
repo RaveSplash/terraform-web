@@ -1,0 +1,66 @@
+output:
+  file: "README.md"
+  mode: replace
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+content: |-
+  {{ .Header }}
+
+  ## Installation
+  To install Terraform, follow these steps:
+  1. Download Terraform from the [official Terraform website](https://www.terraform.io/downloads).
+  2. Add the downloaded binary to your system's PATH.
+  3. Verify the installation by running:
+      ```bash
+      terraform --version
+      ```
+
+  ## Usage
+
+  Below are the basic steps to use this module:
+
+  1. Initialize the Terraform configuration:
+      ```bash
+      terraform init
+      ```
+
+  2. Validate the configuration:
+      ```bash
+      terraform validate
+      ```
+
+  3. Plan the infrastructure changes:
+      ```bash
+      terraform plan
+      ```
+
+  4. Apply the changes:
+      ```bash
+      terraform apply
+      ```
+
+  5. Destroy the resources (if needed):
+      ```bash
+      terraform destroy
+      ```
+
+  {{ .Requirements }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+  ## Contributing
+
+  Contributions are welcome! Please follow the typical Git workflow:
+  1. Fork this repository.
+  2. Create a feature branch (`git checkout -b feature-name`).
+  3. Make your changes and commit them.
+  4. Push the changes to your fork (`git push origin feature-name`).
+  5. Create a pull request to merge your changes.
+formatter: "markdown"
