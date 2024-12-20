@@ -10,13 +10,13 @@ aws_secret_key          = ""
 # EC2 Instance Settings
 ami_id                  = ""
 ebs_volume_size         = 20
-env_secrets_id          = ""
-key_pair_name           = ""
-instance_type           = ""
+env_secrets_id          = "secrets-manager-id-for-env"
+key_pair_name           = "mindhive-page"
+instance_type           = "t2.medium"
 
 # Cloudflare Settings
 cloudflare_api_token    = ""
 cloudflare_zone_id      = ""
 
 # Docker Settings
-dockerhub_repo          = ""
+dockerhub_repo          = "your-dockerhub-repo-for-the-project"
