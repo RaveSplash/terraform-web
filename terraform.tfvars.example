@@ -1,0 +1,22 @@
+# Global Variables
+project_name            = "your-project-name"
+environment             = "dev"
+
+# AWS Settings
+aws_region              = "ap-southeast-1"
+aws_access_key          = ""
+aws_secret_key          = ""
+
+# EC2 Instance Settings
+ami_id                  = ""
+ebs_volume_size         = 20
+env_secrets_id          = ""
+key_pair_name           = ""
+instance_type           = ""
+
+# Cloudflare Settings
+cloudflare_api_token    = ""
+cloudflare_zone_id      = ""
+
+# Docker Settings
+dockerhub_repo          = ""
