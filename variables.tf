@@ -22,6 +22,7 @@ variable "aws_secret_key" {
   type        = string
 }
 
+
 # EC2 Instance Settings
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"

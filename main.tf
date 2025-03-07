@@ -18,6 +18,14 @@ provider "aws" {
   region = var.aws_region
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
+
+  default_tags {
+    tags = {
+      "Project" = var.project_name
+      "Environment" = var.environment
+      "Managedby" = "Terraform"
+    }
+  }
 }
 
 # Cloudflare Provider Configuration
@@ -169,7 +177,7 @@ resource "aws_cloudwatch_log_group" "app_logs" {
 # Cloudflare DNS Record
 resource "cloudflare_record" "domain" {
   zone_id   = var.cloudflare_zone_id 
-  name      = var.project_name        
+  name      = "${var.project_name}.backend"        
   content   = aws_instance.main.public_ip
   type      = "A"                   
   ttl       = 1                  

@@ -86,11 +86,22 @@ services:
     env_file:
       - .env
     restart: always
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     depends_on:
       - redis
+  celery_worker:
+    container_name: celery-worker
+    image: jermaine1337/${DOCKERHUB_REPO}:dev
+    command: celery -A app.celery_app.celery_app worker --pool=prefork --concurrency=4 --time-limit=3800 --soft-time-limit=3600 --max-tasks-per-child=8 --loglevel=info
+    depends_on:
+      - redis
+      - app
+    env_file:
+      - .env
+    ports:
+      - 8001:8001
 EOF
 echo "docker-compose.yml created."
 
@@ -110,9 +121,9 @@ echo "Docker images deployed."
 # Configure Nginx
 # Create Nginx site configuration file
 echo "Configuring Nginx site configuration..."
-cat <<EOF | sudo tee /etc/nginx/sites-available/${PROJECT_NAME}.mindhive.asia > /dev/null
+cat <<EOF | sudo tee /etc/nginx/sites-available/${PROJECT_NAME}.backend.mindhive.asia > /dev/null
 server {
-    server_name ${PROJECT_NAME}.mindhive.asia;
+    server_name ${PROJECT_NAME}.backend.mindhive.asia;
 
     location / {
         proxy_pass http://0.0.0.0:8000;
@@ -125,14 +136,14 @@ server {
 EOF
 
 # Create a symlink to enable the site in Nginx
-sudo ln -s /etc/nginx/sites-available/${PROJECT_NAME}.mindhive.asia /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/${PROJECT_NAME}.backend.mindhive.asia /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 echo "Nginx configured."
 
 # Install SSL certificate with Certbot
 echo "Installing SSL certificate with Certbot..."
-sudo certbot --nginx --non-interactive --agree-tos -m "${CERTBOT_EMAIL}" -d "${PROJECT_NAME}.mindhive.asia" > /dev/null
+sudo certbot --nginx --non-interactive --agree-tos -m "${CERTBOT_EMAIL}" -d "${PROJECT_NAME}.backend.mindhive.asia" > /dev/null
 echo "SSL certificate installed."
 
 echo "EC2 instance setup complete at $(date)"
